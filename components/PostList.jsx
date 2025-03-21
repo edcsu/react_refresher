@@ -1,11 +1,9 @@
-import NewPost from "./NewPost"
 import Post from "./Post"
 import classes from "./PostsList.module.css"
-import Modal from "./Modal"
 import { useEffect, useState } from "react"
 import { API_URL } from "../utils/constants"
 
-const PostList = ({isPosting, onStopPosting}) => {
+const PostList = ({}) => {
     const [postArray, setPostArray] = useState([])
     const [isFetching, setIsFetching] = useState(false)
 
@@ -36,9 +34,6 @@ const PostList = ({isPosting, onStopPosting}) => {
     }
     return (
         <>
-            {isPosting && (<Modal onClose={onStopPosting}>
-                <NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
-            </Modal>)}
             {!isFetching && postArray.length > 0 && (<ul className={classes.post}>
                 {postArray.map((post, index) => (
                     <Post key={index} author={post.author} body={post.body} />
