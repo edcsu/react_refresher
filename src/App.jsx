@@ -1,5 +1,4 @@
 import { useState } from "react";
-import MainHeader from "../components/MainHeader";
 import PostList from "../components/PostList";
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
     }
     return (
       <>
-        <MainHeader onCreatePost={showModalHandler} />
         <main>
           <PostList isPosting={modalIsOpen} onStopPosting={hideModalHandler} />
         </main>
