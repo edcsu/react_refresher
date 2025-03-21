@@ -1,47 +1,42 @@
-import { useState } from 'react';
 import classes from './NewPost.module.css';
 import Modal from '../components/Modal';
-import { Link } from 'react-router-dom';
+import { Link, Form, redirect } from 'react-router-dom';
+import { API_URL } from '../utils/constants';
 
 function NewPost(props) {
-    const [enteredBody, setEnteredBody] = useState('')
-    const [enteredAuthor, setEnteredAuthor] = useState('')
-    
-    const changeBodyHandler = (event) => {
-        setEnteredBody(event.target.value)
-    }
-    const changeAuthorHandler = (event) => {
-        setEnteredAuthor(event.target.value)
-    }
-
-    const submitHandler = (event) => {
-        event.preventDefault() 
-        const postData = {
-            body: enteredBody,
-            author: enteredAuthor
-        }
-        props.onAddPost(postData)
-        props.onCancel()
-    }
-
     return (
         <Modal>
-            <form className={classes.form} onSubmit={submitHandler}>
+            <Form className={classes.form} method='POST' >
                 <p>
                     <label htmlFor="body">Text</label>
-                    <textarea id="body" required rows={3} onChange={changeBodyHandler} />
+                    <textarea id="body" required rows={3} name='body' />
                 </p>
                 <p>
                     <label htmlFor="name">Your name</label>
-                    <input type="text" id="name" required onChange={changeAuthorHandler} />
+                    <input type="text" id="name" required name='author' />
                 </p>
                 <p className={classes.actions}>
                     <Link to="..">Cancel</Link>
                     <button type="submit">Submit</button>
                 </p>
-            </form>
+            </Form>
         </Modal>
     );
 }
 
 export default NewPost;
+
+export const action = async (data) => {
+    const formData = await data.request.formData()
+    const postData = Object.fromEntries(formData)
+
+    const response = await fetch(`${API_URL}/posts`, {
+        method: 'POST',
+        body: JSON.stringify(postData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return redirect('/')
+}
