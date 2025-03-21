@@ -2,12 +2,23 @@ import NewPost from "./NewPost"
 import Post from "./Post"
 import classes from "./PostsList.module.css"
 import Modal from "./Modal"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { API_URL } from "../utils/constants"
 
 const PostList = ({isPosting, onStopPosting}) => {
     const [postArray, setPostArray] = useState([])
 
+    useEffect(() => {
+      const fetchPosts = async () => {
+        const response = await fetch(`${API_URL}/posts`)
+        const resData = await response.json()
+        
+        setPostArray(resData.posts)
+      }
+
+      fetchPosts()
+    }, [])
+    
     const addPostHandler = (postData) => {
         fetch(`${API_URL}/posts`, {
             method: 'POST',
