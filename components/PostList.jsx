@@ -7,13 +7,16 @@ import { API_URL } from "../utils/constants"
 
 const PostList = ({isPosting, onStopPosting}) => {
     const [postArray, setPostArray] = useState([])
+    const [isFetching, setIsFetching] = useState(false)
 
     useEffect(() => {
       const fetchPosts = async () => {
+        setIsFetching(true)
         const response = await fetch(`${API_URL}/posts`)
         const resData = await response.json()
-        
+
         setPostArray(resData.posts)
+        setIsFetching(false)
       }
 
       fetchPosts()
@@ -36,12 +39,16 @@ const PostList = ({isPosting, onStopPosting}) => {
             {isPosting && (<Modal onClose={onStopPosting}>
                 <NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
             </Modal>)}
-            {postArray.length > 0 ? <ul className={classes.post}>
+            {!isFetching && postArray.length > 0 && (<ul className={classes.post}>
                 {postArray.map((post, index) => (
                     <Post key={index} author={post.author} body={post.body} />
                 ))}
-            </ul> : (<div className={classes.nopost}>
+            </ul>)}
+            {!isFetching && postArray.length === 0 && (<div className={classes.nopost}>
                 <h2 >No posts yet</h2>
+            </div>)}
+            {isFetching && (<div className={classes.nopost}>
+                <h2>Loading....</h2>
             </div>)}
         </>
     )

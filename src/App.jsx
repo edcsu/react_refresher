@@ -3,7 +3,7 @@ import MainHeader from "../components/MainHeader";
 import PostList from "../components/PostList";
 
 function App() {
-    const [modalIsOpen, setModalIsOpen] = useState(true)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
 
     const hideModalHandler = () => {
         setModalIsOpen(false)
