@@ -3,11 +3,19 @@ import Post from "./Post"
 import classes from "./PostsList.module.css"
 import Modal from "./Modal"
 import { useState } from "react"
+import { API_URL } from "../utils/constants"
 
 const PostList = ({isPosting, onStopPosting}) => {
     const [postArray, setPostArray] = useState([])
 
     const addPostHandler = (postData) => {
+        fetch(`${API_URL}/posts`, {
+            method: 'POST',
+            body: JSON.stringify(postData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         setPostArray((previousPosts) => {
           return [ postData, ...previousPosts]
         })
