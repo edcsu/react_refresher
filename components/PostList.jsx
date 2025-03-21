@@ -9,7 +9,7 @@ const PostList = ({isPosting, onStopPosting}) => {
 
     const addPostHandler = (postData) => {
         setPostArray((previousPosts) => {
-            [ postData, ...previousPosts]
+          return [ postData, ...previousPosts]
         })
     }
     return (
@@ -18,7 +18,9 @@ const PostList = ({isPosting, onStopPosting}) => {
                 <NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
             </Modal>)}
             <ul className={classes.post}>
-                <Post name='Edwin' body='Next.js is awesome' />
+                {postArray.map((post, index) => (
+                    <Post key={index} author={post.author} body={post.body} />
+                ))}
             </ul>
         </>
     )
