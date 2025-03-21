@@ -17,11 +17,13 @@ const PostList = ({isPosting, onStopPosting}) => {
             {isPosting && (<Modal onClose={onStopPosting}>
                 <NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
             </Modal>)}
-            <ul className={classes.post}>
+            {postArray.length > 0 ? <ul className={classes.post}>
                 {postArray.map((post, index) => (
                     <Post key={index} author={post.author} body={post.body} />
                 ))}
-            </ul>
+            </ul> : (<div className={classes.nopost}>
+                <h2 >No posts yet</h2>
+            </div>)}
         </>
     )
 }
