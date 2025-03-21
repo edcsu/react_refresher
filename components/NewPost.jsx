@@ -18,6 +18,7 @@ function NewPost(props) {
             body: enteredBody,
             author: enteredAuthor
         }
+        props.onCancel()
     }
 
     return (
