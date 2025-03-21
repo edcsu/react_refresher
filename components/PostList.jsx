@@ -18,7 +18,11 @@ const PostList = ({isPosting, onStopPosting}) => {
     return (
         <>
             {isPosting && <Modal onClose={onStopPosting}>
-                <NewPost onBodyChange={changeBodyHandler} onAuthorChange={changeAuthorHandler}/>
+                <NewPost 
+                    onBodyChange={changeBodyHandler} 
+                    onAuthorChange={changeAuthorHandler}
+                    onCancel={onStopPosting}
+                />
             </Modal>}
             <ul className={classes.post}>
                 <Post name={enteredAuthor} body={enteredBody} />
